@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type"
+          content="text/html; charset=utf-8">
+    <title> Меню </title>
+    <style type="text/css">
+        table {
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 5px 5px 5px 5px;
+            border: solid black;
+            text-align: center
+        }
+
+    </style>
+
+</head>
+<header>
+    <h1> Меню </h1>
+</header>
+<body>
+<div>
+    <form method="post" action={% url 'meals:create_order' %}>
+        {% csrf_token %}
+        {% for category in categories %}
+            <h2>{{ category }} </h2>
+            <table>
+                <tr>
+                    <th rowspan="2" width="50" scope="col"> Название блюда</th>
+                    <th width="10" colspan="4"> Пищевая ценность</th>
+                    <th rowspan="2" width="80" scope="col"> Цена</th>
+                    <th rowspan="2" width="100" scope="col"> Аллергены</th>
+                    <th rowspan="2" width="100" scope="col"> Изображение</th>
+                    <th rowspan="2" width="30" scope="col"> -</th>
+                </tr>
+                <tr>
+                    <th scope="col"> Белки</th>
+                    <th scope="col"> Жиры</th>
+                    <th scope="col"> Углеводы</th>
+                    <th scope="col"> Калории</th>
+                </tr>
+                {% for meal in meals %}
+                    {% if category.id == meal.category.id %}
+                        <tr>
+                            <td>{{ meal.name }}</td>
+                            <td>{{ meal.proteins }}</td>
+                            <td>{{ meal.fats }}</td>
+                            <td>{{ meal.carbohydrates }}</td>
+                            <td>{{ meal.calories }}</td>
+                            <td>{{ meal.price }}</td>
+                            <td> {% for allergen in meal.allergens.all %}
+                                {{ allergen.name }}
+                            {% endfor %}</td>
+                            <td>{% if meal.picture %}
+                                <img src="{{ meal.picture.url }}" width="80" height="80">
+                            {% endif %}
+                            </td>
+                            <td><input id="meal_name" type="checkbox"
+                                       name="{{ meal.name }}" value="{{ meal.name }}"></td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </table>
+        {% endfor %}
+        <p><input type="submit" value="Сохранить"></p>
+
+    </form>
+</div>
+</body>
+</html>

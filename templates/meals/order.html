@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type"
+        content="text/html; charset=utf-8">
+        <title> Меню </title>
+    </head>
+    <header>
+        <h1> Ваш заказ </h1>
+    </header>
+    <body>
+        <div>
+            <h2>Сумма заказа: {{ price }} </h2>
+            <h2>В заказ входят следующие блюда:</h2>
+            {% for meal in order %}
+                <ul> {{ meal}} </ul>
+            {% endfor %}
+
+            <h2>Блюда данного заказа содержат следующие аллергены:</h2>
+            {% for allergen in allergens %}
+                <ul>{{ allergen}}</ul>
+            {% endfor %}
+        </div>
+    </body>
+</html>
